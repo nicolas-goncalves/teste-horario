@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type ="image/x.icon" href="heart.png">
+    <title>Bientôt !</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .container>div {
+            width: 450px;
+            height: 575px;
+        }
+
+        .countdownContainer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            text-align: center;
+            background: lightskyblue;
+            border: 1px solid #999;
+            height: 100px;
+            width: 600px;
+            box-shadow: 0 0 5px 3px #ccc;
+            border-radius: 3%;
+        }
+
+        .foot {
+            margin-top: 375px;
+            padding: 20px;
+            background: white;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        #head {
+            margin-top: 10%;
+            padding: 10px;
+        }
+
+        .info {
+            font-size: 80px;
+        }
+
+        .left,
+        .right {
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            display: grid;
+            place-items: center;
+        }
+
+        .heart-div {
+            width: 5rem;
+            height: 5rem;
+            background-color: #ee5253;
+            position: relative;
+            transform: rotate(45deg);
+            box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+                0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+                0 22.3px 17.9px rgba(0, 0, 0, 0.072);
+            animation: hbeat 1s linear infinite;
+        }
+
+        .heart-div::before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            background-color: #ee5253;
+            position: absolute;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .heart-div::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            background-color: #ee5253;
+            position: absolute;
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes hbeat {
+            0% {
+                transform: rotate(45deg) scale(1);
+            }
+
+            20% {
+                transform: rotate(45deg) scale(1);
+            }
+
+            40% {
+                transform: rotate(45deg) scale(1.4);
+            }
+
+            60% {
+                transform: rotate(45deg) scale(1.2);
+            }
+
+            80% {
+                transform: rotate(45deg) scale(1.4);
+            }
+
+            100% {
+                transform: rotate(45deg) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="heart-div"></div>
+        </div>
+        <div class="center">
+            <table class="countdownContainer" id="a">
+                <tr class="info">
+                    <td colspan="4" id="a">Il reste</td>
+                </tr>
+                <tr class="info">
+                    <td id="days">0</td>
+                    <td id="hours">0</td>
+                    <td id="minutes">0</td>
+                    <td id="seconds">0</td>
+                </tr>
+                <tr>
+                    <td>Jours</td>
+                    <td>Heures</td>
+                    <td>Minutes</td>
+                    <td>Secondes</td>
+                </tr>
+                <tr class="info">
+                    <td colspan="4" id="b">pour se voir!</td>
+                </tr>
+            </table>
+            <div class="foot" id="head">
+                <h2 id="head_text"></h2>
+            </div>
+            <div class="foot">
+                <h2 id="foot_text">J'ai "corujei" pour faire ça</h2>
+            </div>
+        </div>
+        <div class="right">
+            <div class="heart-div"></div>
+        </div>
+    </div>
+    <script>
+        function countdown() {
+            var now = new Date();
+            var eventDate = new Date("apr 2, 2021 00:00:00");
+
+            var currentTime = now.getTime();
+            var eventTime = eventDate.getTime();
+
+            var timeDifference = eventTime - currentTime;
+
+            var s = Math.floor(timeDifference / 1000);
+            var m = Math.floor(s / 60);
+            var h = Math.floor(m / 60);
+            var d = Math.floor(h / 24);
+
+            h %= 24;
+            m %= 60;
+            s %= 60;
+
+            h = (h < 10 && h > 0) ? "0" + h : h;
+            m = (m < 10 && m > 0) ? "0" + m : m;
+            s = (s < 10 && s > 0) ? "0" + s : s;
+
+            if (d >= 0) document.getElementById("days").textContent = d;
+            if (h >= 0) document.getElementById("hours").textContent = h;
+            if (m >= 0) document.getElementById("minutes").textContent = m;
+            if (s >= 0) document.getElementById("seconds").textContent = s;
+
+            if (d <= 30) {
+                document.getElementById("head_text").textContent = "C'est près !";
+                document.getElementById("foot_text").textContent = "";
+
+                if (d < 7) {
+                    document.getElementById("head_text").textContent = "Une semaine !";
+                }
+
+                if (d < 1) {
+                    document.getElementById("head_text").textContent = "C'est aujourd'hui !";
+
+                    if (d <= 0 && h <= 0 && m <= 0 && s <= 0) 
+                    document.getElementById("head_text").textContent = "C'est maintenant ! (j'espère)";
+                }
+            }
+
+            setTimeout(countdown, 1000);
+        }
+
+        countdown();
+
+    </script>
+</body>
+</html>
